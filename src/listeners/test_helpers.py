@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 
 from src.listeners.helpers import get_random_user_agent, user_agents
 

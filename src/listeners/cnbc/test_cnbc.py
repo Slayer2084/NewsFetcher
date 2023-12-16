@@ -1,12 +1,9 @@
-from unittest.mock import patch
 import unittest
-import aiounittest
-import pytz
-import datetime
 
 from src.listeners.cnbc.cnbc import CNBC
 
 
+# Required Environment Variables: None
 class ArticleValidationTestCase(unittest.TestCase):
     def test_article_type_cnbcvideo_or_live_story(self):
         result = {

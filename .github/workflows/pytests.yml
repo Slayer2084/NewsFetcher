@@ -1,0 +1,64 @@
+name: PyTest
+
+on: [push, pull_request]
+
+jobs:
+  cnbc-test:
+    runs-on: ubuntu-latest
+    name: cnbc-test
+    env:
+      NONE: NONE
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v3
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+          pip install -r requirements.txt
+      - name: run tests
+        run: pytest src/listeners/cnbc
+
+  guardian-test:
+    runs-on: ubuntu-latest
+    name: guardian-test
+    env:
+      NONE: NONE
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v3
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+          pip install -r requirements.txt
+      - name: run tests
+        run: pytest src/listeners/guardian
+
+  nyt-test:
+    runs-on: ubuntu-latest
+    name: nyt-test
+    env:
+      NONE: NONE
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v3
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+          pip install -r requirements.txt
+      - name: run tests
+        run: pytest src/listeners/nyt
