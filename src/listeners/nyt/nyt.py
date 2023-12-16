@@ -34,12 +34,12 @@ class NYT:
             try:
                 result = await self.get_new_nyt(newest_time)
                 if result is not None:
-                    logger.info(f"Found new nyt article.")
+                    logger.info("Found new nyt article.")
                     newest_time, article = result
             except NYTException:
                 logger.exception("Exception occurred while trying to scrape NYT")
             if not article.empty():
-                logger.info(f"Calling callback with new nyt article.")
+                logger.info("Calling callback with new nyt article.")
                 self.callback(article)
 
     async def get_new_nyt(self, newest_time: datetime.datetime) -> Optional[Tuple[datetime.datetime, Article]]:

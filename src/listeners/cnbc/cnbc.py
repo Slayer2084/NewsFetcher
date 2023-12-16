@@ -35,12 +35,12 @@ class CNBC:
             try:
                 result = await self.get_new_cnbc(newest_time)
                 if result is not None:
-                    logger.info(f"Found new cnbc article.")
+                    logger.info("Found new cnbc article.")
                     newest_time, article = result
             except CNBCException:
                 logger.exception("Exception occurred while trying to scrape CNBC")
             if not article.empty():
-                logger.info(f"Calling callback with new cnbc article.")
+                logger.info("Calling callback with new cnbc article.")
                 self.callback(article)
 
     async def get_new_cnbc(self, newest_time: datetime.datetime) -> Optional[Tuple[datetime.datetime, Article]]:

@@ -32,12 +32,12 @@ class Guardian:
             try:
                 result = await self.get_new_guardian(newest_time)
                 if result is not None:
-                    logger.info(f"Found new guardian article.")
+                    logger.info("Found new guardian article.")
                     newest_time, article = result
             except GuardianException:
                 logger.exception("Exception occurred while trying to scrape Guardian")
             if not article.empty():
-                logger.info(f"Calling callback with new guardian article.")
+                logger.info("Calling callback with new guardian article.")
                 self.callback(article)
 
     async def get_new_guardian(self, newest_time: datetime.datetime) -> Optional[Tuple[datetime.datetime, Article]]:

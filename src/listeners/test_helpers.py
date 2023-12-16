@@ -12,4 +12,3 @@ class RandomUserAgentTestCase(unittest.TestCase):
     def test_returns_string_user_agent(self):
         user_agent = get_random_user_agent()
         self.assertIsInstance(user_agent, str)
-
