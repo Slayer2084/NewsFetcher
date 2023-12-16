@@ -35,12 +35,12 @@ class CNBC:
             try:
                 result = await self.get_new_cnbc(newest_time)
                 if result is not None:
-                    logger.info(f"Found new article.")
+                    logger.info(f"Found new cnbc article.")
                     newest_time, article = result
             except CNBCException:
                 logger.exception("Exception occurred while trying to scrape CNBC")
             if not article.empty():
-                logger.info(f"Calling callback with article.")
+                logger.info(f"Calling callback with new cnbc article.")
                 self.callback(article)
 
     async def get_new_cnbc(self, newest_time: datetime.datetime) -> Optional[Tuple[datetime.datetime, Article]]:
@@ -48,12 +48,7 @@ class CNBC:
         logger.info(f"Number of pages: {n_pages}")
         results = await self._find_page_with_newest_article_after_time(newest_time, n_pages)
         logger.info("Got results from page containing the newest article.")
-        for result in results:
-            t = ciso8601.parse_datetime(result["datePublished"])
-            if newest_time < t:
-                if self._check_if_article_valid(result):
-                    article = Article(url=result["url"], time=t, origin="c")
-                    return t, article
+        return self._get_most_recent_article(results, newest_time)
 
     async def _get_number_of_pages(self) -> int:
         json = (await request_cnbc_api(self.base_url.format(0))).json()
@@ -84,6 +79,15 @@ class CNBC:
                 if result["cn:type"] not in ["cnbcvideo", "live_story"]:
                     return True
         return False
+
+    def _get_most_recent_article(self, articles: list,
+                                 newest_time: datetime.datetime) -> Optional[Tuple[datetime.datetime, Article]]:
+        for result in articles:
+            t = ciso8601.parse_datetime(result["datePublished"])
+            if newest_time < t:
+                if self._check_if_article_valid(result):
+                    article = Article(url=result["url"], time=t, origin="c")
+                    return t, article
 
 
 @sleep_and_retry

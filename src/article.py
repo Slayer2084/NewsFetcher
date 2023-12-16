@@ -10,3 +10,6 @@ class Article:
 
     def empty(self) -> bool:
         return self.url is None and self.time is None and self.origin is None
+
+    def __str__(self):
+        return f"Article(url={self.url}, time={self.time}, origin={self.origin})"
